@@ -47,13 +47,21 @@ public class UserService implements Runnable {
         }
 
         if (status == 3) {
-            String userName = data.get(0).substring("LOGIN:".length(),data.get(0).indexOf("\n\r"));
+            String userName = data.get(0).substring("LOGIN:".length(), data.get(0).indexOf("\n\r"));
             User user = new User(socket, userName);
             System.out.println(userName);
             MsgServerView.msgServer.add(user);
-            while (true){
+            String data2 = null;
+            while (true) {
                 if (isServerClose(socket)) {
                     break;
+                }
+                if ((data2 = Msg.read(socket)) != null) {
+                    System.out.println(data2);
+                    if (data2.indexOf("INVITE:") == 0) { //ÑûÇë
+//                        Msg msg = new Msg(data1);
+//                        server.dealMsg(msg);
+                    }
                 }
             }
             server.logout(socket);
@@ -68,11 +76,11 @@ public class UserService implements Runnable {
                     }
 
                     if ((data1 = Msg.read(socket)) != null) {
-                        if (data1.indexOf("LOGIN:") == 0) { //µÇÂ½
-
+                        if (data1.indexOf("INVITE:") == 0) { //ÑûÇë
+                            Msg msg = new Msg(data1);
+                            server.dealMsg(msg);
                         }
                     }
-                    sendOnlinePersonsInfo();
 
                 }
             } catch (Exception e1) {

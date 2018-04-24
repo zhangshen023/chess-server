@@ -94,7 +94,7 @@ public class Msg {
         socket.getOutputStream().write(msg.getBytes(Setting.encode));
     }
 
-    public static String read(Socket socket)  {
+    public static String read(Socket socket) {
         try {
             return new BufferedReader(new InputStreamReader(
                     socket.getInputStream(), Setting.encode)).readLine();
